@@ -51,15 +51,38 @@
 -- select max(age), gender from students where gender = 'female' group by gender;
 
 -- alias
-select 
-	avg(rating), 
-    count(rating), 
-    student_id 
-from ratings 
-group by student_id;
+-- select 
+-- 	avg(rating), 
+ --    count(rating), 
+ --    student_id 
+-- from ratings 
+-- group by student_id;
 
 
+-- select distinct - унікальність
+-- select distinct gender from students
 
+
+-- пагінація
+-- limit - к-ть елементів які обрати
+-- offset - к-ть елементів що пропустити
+-- select  * from students limit 3 offset 0;
+-- select * from students limit 3 offset 6
+
+-- на фронті наступне:
+-- 'get /users?page=1&perPage=20;'
+-- 'select * from students limit ${perPage} offset ${perPage * (page-1)}'
+
+
+-- delete(softdelte)
+-- update 
+
+-- ліміт для безпеки 
+-- update students set name='lola2021' where age>30 and gender like 'f%' limit 10;
+-- неможливо стерти бо є звязок з іншою схемою
+-- delete from stuednts where name='lola2021' limit 10;
+
+delete from students where id=10;
 
 
 
