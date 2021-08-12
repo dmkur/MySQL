@@ -129,17 +129,64 @@ where a.CreditState = 'Returned'
 limit 1000;
 
 # 20. Видалити кредити клієнтів, в яких друга літера прізвища є голосною.
+delete a
+from application a
+join client c on c.idClient = a.Client_idClient
+where 
+	c.LastName like '_a%' or
+	c.LastName like '_o%' or
+	c.LastName like '_u%' or
+	c.LastName like '_y%' or
+	c.LastName like '_e%' or
+	c.LastName like '_i%';
+
+
 
 # 21.Знайти львівські відділення, які видали кредитів на загальну суму більше ніж 5000
+select 
+	sum(Sum) as sumApp, d.*
+from application a
+join client c on c.idClient = a.Client_idClient
+join department d on d.idDepartment = c.Department_idDepartment
+where d.DepartmentCity = 'Lviv'
+group by d.idDepartment
+having sumApp > 5000;
+
+
+
 
 # 22.Знайти клієнтів, які повністю погасили кредити на суму більше ніж 5000
+select * from application a
+join client c on c.idClient = a.Client_idClient 
+where a.Sum > 5000 and a.CreditState = 'Returned';
+
+
 
 # 23.Знайти максимальний неповернений кредит.
+select *, max(Sum)
+from application
+where CreditState = 'Not returned';
 
-# 24.Знайти клієнта, сума кредиту якого найменша
 
-# 25.Знайти кредити, сума яких більша за середнє значення усіх кредитів
+
+# 24.Знайти клієнта, сума кредиту якого найменша.
+select
+	c.*, min(Sum)
+from client c
+join application a on c.idClient = a.Client_idClient;
+
+
+
+# 25.Знайти кредити, сума яких більша за середнє значення усіх кредитів.
+select a.*, sum
+from application a
+where sum > (select avg(Sum) from application);
+
+
 
 # 26. Знайти клієнтів, які є з того самого міста, що і клієнт, який взяв найбільшу кількість кредитів
+
+
+
 
 # 27. Місто клієнта з найбільшою кількістю кредитів
